@@ -66,8 +66,9 @@ checking/processing the data in the format that I need
     setwd("~/Monica/DataScience/ReproducibleResearch/repdata%2Fdata%2Factivity")
     hist(as.numeric(dailysteps$steps), col = "blue", border = "green", xlab = "Steps Number", ylab = "Frequency", main = "Total Number of Steps Histogram")
 
-![](PA1_template_files/figure-markdown_strict/unnamed-chunk-3-1.png)
-\#\#\# Mean and median are calculated
+![alt text](PA1_template_files/figure-markdown_strict/unnamed-chunk-3-1.png?raw=true)
+
+### Mean and median are calculated
 
     setwd("~/Monica/DataScience/ReproducibleResearch/repdata%2Fdata%2Factivity")
     mean(dailysteps$steps)
