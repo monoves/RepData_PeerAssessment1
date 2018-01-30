@@ -66,8 +66,8 @@ checking/processing the data in the format that I need
     setwd("~/Monica/DataScience/ReproducibleResearch/repdata%2Fdata%2Factivity")
     hist(as.numeric(dailysteps$steps), col = "blue", border = "green", xlab = "Steps Number", ylab = "Frequency", main = "Total Number of Steps Histogram")
 
-![](test_files/figure-markdown_strict/unnamed-chunk-3-1.png) \#\#\# Mean
-and median are calculated
+![](test_files/figure-markdown_strict/unnamed-chunk-3-1.png?raw=true) 
+### Mean and median are calculated
 
     setwd("~/Monica/DataScience/ReproducibleResearch/repdata%2Fdata%2Factivity")
     mean(dailysteps$steps)
@@ -86,7 +86,7 @@ and median are calculated
 
     plot(steps ~ interval, data = averageintervalsteps, type = "l", xlab = "Intervals", ylab = "Average Steps per Interval", main = "Average Steps In Intervals", col = "red")
 
-![](test_files/figure-markdown_strict/unnamed-chunk-5-1.png)
+![](test_files/figure-markdown_strict/unnamed-chunk-5-1.png?raw=true)
 
 ### The maximum number of average steps in a five minute interval
 
@@ -151,7 +151,7 @@ and median are calculated
     colnames(totalsteps) <- c("date", "steps")
     hist(as.numeric(totalsteps$steps), xlab = "Steps Number", ylab="Frequency", main = "Total Number of Steps with filled NAs", col = "yellow")
 
-![](test_files/figure-markdown_strict/unnamed-chunk-8-1.png)
+![](test_files/figure-markdown_strict/unnamed-chunk-8-1.png?raw=true)
 
     mean(totalsteps$steps)
 
@@ -170,7 +170,7 @@ and median are calculated
     newset = aggregate (steps ~ interval + day, allactivitydata, mean)
     xyplot(steps ~ interval | factor(day), data = newset, aspect = 1/2, type = "l")
 
-![](test_files/figure-markdown_strict/unnamed-chunk-9-1.png)
+![](test_files/figure-markdown_strict/unnamed-chunk-9-1.png?raw=true)
 
 Results
 =======
