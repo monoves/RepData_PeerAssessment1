@@ -1,25 +1,118 @@
 ---
-title: "Reproducible Research: Peer Assessment 1"
-output: 
-  html_document:
-    keep_md: true
+title: "PA1_template"
+author: "Monica Oves"
+date: "January 29, 2018"
+output: html_document
 ---
 
+#Analysis of Personal Movement using Activity Monitoring Devices
+#Synopsis:
+It is now possible to collect a large amount of data about personal movement using activity monitoring devices such as a Fitbit, Nike Fuelband, or Jawbone Up. These type of devices are part of the ??quantified self?? movement ?? a group of enthusiasts who take measurements about themselves regularly to improve their health, to find patterns in their behavior, or because they are tech geeks. But these data remain under-utilized both because the raw data are hard to obtain and there is a lack of statistical methods and software for processing and interpreting the data.
+This code makes use of data from a personal activity monitoring device by analyzing total steps, average steps in five minute intervals, as well as compared activity levels between weekdays and weekends. This device collects data at 5 minute intervals through out the day. The data consists of two months of data from an anonymous individual collected during the months of October and November, 2012 and include the number of steps taken in 5 minute intervals each day.
 
-## Loading and preprocessing the data
+#Data Processing:
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
 
+I manually set the working directory
+The code refining and checking/processing the data in the format that I need
+```{r, echo=TRUE}
+setwd("~/Monica/DataScience/ReproducibleResearch/repdata%2Fdata%2Factivity")
+activitydata <- read.csv("activity.csv", header=TRUE, sep = ",", na.strings = "NA")
+summary(activitydata)
+activitydata$date <- as.Date(activitydata$date, format = "%Y-%m-%d")
+activitydata$interval <- factor(activitydata$interval)
+```
 
+### The total number of steps taken is summed up
+```{r, echo=TRUE}
+setwd("~/Monica/DataScience/ReproducibleResearch/repdata%2Fdata%2Factivity")
+NAs <- is.na(as.character(activitydata$steps))
+activitydata_noNA <- activitydata[!NAs,]
+head(activitydata_noNA)
+dailysteps <- aggregate(steps ~ date, data = activitydata_noNA, sum)
+colnames(dailysteps) <- c("date", "steps")
+```
 
-## What is mean total number of steps taken per day?
+### A histogram of the total number of steps taken each day
+```{r, echo=TRUE}
+setwd("~/Monica/DataScience/ReproducibleResearch/repdata%2Fdata%2Factivity")
+hist(as.numeric(dailysteps$steps), col = "blue", border = "green", xlab = "Steps Number", ylab = "Frequency", main = "Total Number of Steps Histogram")
+```
 
+### Mean and median are calculated
+```{r, echo=TRUE}
+setwd("~/Monica/DataScience/ReproducibleResearch/repdata%2Fdata%2Factivity")
+mean(dailysteps$steps)
+median(dailysteps$steps)
+```
 
+### The average daily activity pattern is calculated in five minute intervals, and then a time plot of average number of steps taken is plotted
+```{r, echo=TRUE}
+setwd("~/Monica/DataScience/ReproducibleResearch/repdata%2Fdata%2Factivity")
+averageintervalsteps <- aggregate(steps ~ interval, data = activitydata_noNA, mean, na.rm = TRUE)
+colnames(averageintervalsteps) <- c("interval", "steps")
 
-## What is the average daily activity pattern?
+plot(steps ~ interval, data = averageintervalsteps, type = "l", xlab = "Intervals", ylab = "Average Steps per Interval", main = "Average Steps In Intervals", col = "red")
+```
 
+### The maximum number of average steps in a five minute interval
+```{r, echo=TRUE}
+setwd("~/Monica/DataScience/ReproducibleResearch/repdata%2Fdata%2Factivity")
+stepsmax <- max(averageintervalsteps$steps)
+intervalmaxsteps <- averageintervalsteps[which.max(averageintervalsteps$steps),]$interval
+intervalmaxsteps
+```
 
+### Find the missing values, and impute the missing values with the mean of five minute intervals
+```{r, echo=TRUE}
+setwd("~/Monica/DataScience/ReproducibleResearch/repdata%2Fdata%2Factivity")
+sum(is.na(as.character(activitydata$steps)))
+sum(is.na(as.character(activitydata$date)))
+sum(is.na(as.character(activitydata$interval)))
+NAs <- which(is.na(as.character(activitydata$steps)))
 
-## Imputing missing values
+meansteps <- function(interval){
+  averageintervalsteps[averageintervalsteps$interval==interval, "steps"]
+}
+allactivitydata <- activitydata
+values = 0
+for (i in 1:nrow(allactivitydata)) {
+  if (is.na(allactivitydata[i, "steps"])) {
+    allactivitydata[i,"steps"] <- meansteps(allactivitydata[i, "interval"])
+    values = values + 1
+  }
+}
+summary(allactivitydata)
+str(allactivitydata)
+```
 
+### A histogram of total steps with NAs filled is plotted
+```{r, echo=TRUE}
+setwd("~/Monica/DataScience/ReproducibleResearch/repdata%2Fdata%2Factivity")
+totalsteps <- aggregate(steps ~ date, data = allactivitydata, sum)
+colnames(totalsteps) <- c("date", "steps")
+hist(as.numeric(totalsteps$steps), xlab = "Steps Number", ylab="Frequency", main = "Total Number of Steps with filled NAs", col = "yellow")
+mean(totalsteps$steps)
+median(totalsteps$steps)
+```
 
+### The difference between weekdays and weekends is plotted on a paneled xy plot for comparison
+```{r, echo=TRUE}
+setwd("~/Monica/DataScience/ReproducibleResearch/repdata%2Fdata%2Factivity")
+library(lattice)
+allactivitydata$day <- ifelse(as.POSIXlt(as.Date(allactivitydata$date))$wday%%6 == 0, "weekend", "weekday")
+allactivitydata$day <- factor(allactivitydata$day, levels = c("weekday", "weekend"))
+newset = aggregate (steps ~ interval + day, allactivitydata, mean)
+xyplot(steps ~ interval | factor(day), data = newset, aspect = 1/2, type = "l")
+```
 
-## Are there differences in activity patterns between weekdays and weekends?
+#Results
+The results seem to differ greatly from one another when comparing the weekdays and the weekends. The weekends seem to have more consistent activity and peaks ranging from just below to 150 to 200 steps. The weekends also appear to have activity that begins earlier than during the weekdays. The weekday only has one prominent peaks that reaches above 200 steps. Then it sharply moves down and remains consistently peaking from 50 to 100 steps at a time. All in all, the data seems to vary, but both depict a good amount of activity throughout the days. 
+```{r, echo=TRUE}
+setwd("~/Monica/DataScience/ReproducibleResearch/repdata%2Fdata%2Factivity")
+library(rmarkdown)
+sink("PA1_template.Rmd")
+rmarkdown::render("PA1_template.Rmd")
+```
