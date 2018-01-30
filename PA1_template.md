@@ -87,7 +87,7 @@ checking/processing the data in the format that I need
 
     plot(steps ~ interval, data = averageintervalsteps, type = "l", xlab = "Intervals", ylab = "Average Steps per Interval", main = "Average Steps In Intervals", col = "red")
 
-![](PA1_template_files/figure-markdown_strict/unnamed-chunk-5-1.png)
+![](https://github.com/monoves/RepData_PeerAssessment1/blob/master/PA1_markdown_files/figure-markdown_strict/unnamed-chunk-5-1.png)
 
 ### The maximum number of average steps in a five minute interval
 
@@ -152,7 +152,7 @@ checking/processing the data in the format that I need
     colnames(totalsteps) <- c("date", "steps")
     hist(as.numeric(totalsteps$steps), xlab = "Steps Number", ylab="Frequency", main = "Total Number of Steps with filled NAs", col = "yellow")
 
-![](PA1_template_files/figure-markdown_strict/unnamed-chunk-8-1.png)
+![](https://github.com/monoves/RepData_PeerAssessment1/blob/master/PA1_markdown_files/figure-markdown_strict/unnamed-chunk-8-1.png)
 
     mean(totalsteps$steps)
 
@@ -171,7 +171,7 @@ checking/processing the data in the format that I need
     newset = aggregate (steps ~ interval + day, allactivitydata, mean)
     xyplot(steps ~ interval | factor(day), data = newset, aspect = 1/2, type = "l")
 
-![](PA1_template_files/figure-markdown_strict/unnamed-chunk-9-1.png)
+![](https://github.com/monoves/RepData_PeerAssessment1/blob/master/PA1_markdown_files/figure-markdown_strict/unnamed-chunk-9-1.png)
 
 Results
 =======
