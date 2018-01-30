@@ -114,9 +114,4 @@ xyplot(steps ~ interval | factor(day), data = newset, aspect = 1/2, type = "l")
 Results
 -------------------
 The results seem to differ greatly from one another when comparing the weekdays and the weekends. The weekends seem to have more consistent activity and peaks ranging from just below to 150 to 200 steps. The weekends also appear to have activity that begins earlier than during the weekdays. The weekday only has one prominent peaks that reaches above 200 steps. Then it sharply moves down and remains consistently peaking from 50 to 100 steps at a time. All in all, the data seems to vary, but both depict a good amount of activity throughout the days. 
-```{r, echo=TRUE}
-setwd("~/Monica/DataScience/ReproducibleResearch/repdata%2Fdata%2Factivity")
-library(rmarkdown)
-sink("PA1_template.Rmd")
-rmarkdown::render("PA1_template.Rmd")
-```
+
