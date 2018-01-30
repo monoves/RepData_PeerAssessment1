@@ -5,14 +5,15 @@ date: "January 29, 2018"
 output: html_document
 ---
 
-#Analysis of Personal Movement using Activity Monitoring Devices
+Analysis of Personal Movement using Activity Monitoring Devices
 -------------
-#Synopsis:
+Synopsis:
 -----------
 It is now possible to collect a large amount of data about personal movement using activity monitoring devices such as a Fitbit, Nike Fuelband, or Jawbone Up. These type of devices are part of the ??quantified self?? movement ?? a group of enthusiasts who take measurements about themselves regularly to improve their health, to find patterns in their behavior, or because they are tech geeks. But these data remain under-utilized both because the raw data are hard to obtain and there is a lack of statistical methods and software for processing and interpreting the data.
 This code makes use of data from a personal activity monitoring device by analyzing total steps, average steps in five minute intervals, as well as compared activity levels between weekdays and weekends. This device collects data at 5 minute intervals through out the day. The data consists of two months of data from an anonymous individual collected during the months of October and November, 2012 and include the number of steps taken in 5 minute intervals each day.
 
-#Data Processing:
+Data Processing:
+--------
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
@@ -110,7 +111,8 @@ newset = aggregate (steps ~ interval + day, allactivitydata, mean)
 xyplot(steps ~ interval | factor(day), data = newset, aspect = 1/2, type = "l")
 ```
 
-#Results
+Results
+-------------------
 The results seem to differ greatly from one another when comparing the weekdays and the weekends. The weekends seem to have more consistent activity and peaks ranging from just below to 150 to 200 steps. The weekends also appear to have activity that begins earlier than during the weekdays. The weekday only has one prominent peaks that reaches above 200 steps. Then it sharply moves down and remains consistently peaking from 50 to 100 steps at a time. All in all, the data seems to vary, but both depict a good amount of activity throughout the days. 
 ```{r, echo=TRUE}
 setwd("~/Monica/DataScience/ReproducibleResearch/repdata%2Fdata%2Factivity")
